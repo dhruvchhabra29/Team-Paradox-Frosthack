@@ -6,7 +6,6 @@ from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
@@ -19,9 +18,10 @@ os.environ["USER_AGENT"] = "CourseAssistant/1.0"
 # ── CONFIG ───────────────────────────────────────────────
 PROGRAM_URLS = [
     "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems",
+    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-admissions",      # ← fees & admissions
+    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-curriculum",      # ← full curriculum
+    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-career-prospects",# ← career outcomes
     "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-applynow",
-    "https://mastersunion.org/about",
-    "https://mastersunion.org/placements",
 ]
 DB_DIR = "./chroma_db"
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
@@ -133,9 +133,24 @@ def build_vectorstore():
     docs = []
     for url in PROGRAM_URLS:
         try:
-            resp = requests.get(f"https://r.jina.ai/{url}", headers={"Accept": "text/plain"}, timeout=30)
+            resp = requests.get(
+                f"https://r.jina.ai/{url}",
+                headers={"Accept": "text/plain"},
+                timeout=30
+            )
             if resp.status_code == 200:
-                docs.append(Document(page_content=resp.text, metadata={"source": url}))
+                # Strip nav boilerplate lines (pure markdown nav links)
+                lines = resp.text.split('\n')
+                filtered = [
+                    line for line in lines
+                    if not (line.strip().startswith('*   [') and line.strip().endswith(')'))
+                    and not (line.strip().startswith('* [') and line.strip().endswith(')'))
+                ]
+                clean_text = '\n'.join(filtered)
+                docs.append(Document(
+                    page_content=clean_text,
+                    metadata={"source": url}
+                ))
         except Exception as e:
             st.warning(f"Could not scrape {url}: {e}")
 
@@ -219,7 +234,7 @@ st.markdown("""
 
 st.markdown("""
 <div class="metrics-row">
-    <div class="metric-card"><div class="metric-val">12 Months</div><div class="metric-lbl">Program Duration</div></div>
+    <div class="metric-card"><div class="metric-val">15 Months</div><div class="metric-lbl">Program Duration</div></div>
     <div class="metric-card"><div class="metric-val">Live AI</div><div class="metric-lbl">Powered Assistant</div></div>
     <div class="metric-card"><div class="metric-val">RAG</div><div class="metric-lbl">Grounded Answers</div></div>
     <div class="metric-card"><div class="metric-val">24 / 7</div><div class="metric-lbl">Always Available</div></div>
