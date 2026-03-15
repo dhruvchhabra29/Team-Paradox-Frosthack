@@ -1,6 +1,6 @@
 # 🎓 PGP AI Course Advisor
 ### AI-Powered Course Assistant for Program Discovery & Query Resolution
-> Built for **FrostHack @ Xpecto'26, IIT Mandi** | Team: Newton School of Technology, Rishihood University
+> Built for **FrostHack @ Xpecto'26, IIT Mandi** | Team: Team Paranox (Newton School of Technology, Rishihood University)
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.x-red?logo=streamlit)
