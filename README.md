@@ -343,5 +343,7 @@ Competing at FrostHack — Xpecto'26, IIT Mandi 🏔️
 
 MIT License — free to use, modify, and build upon.
 
+## DEMO
 
-
+**For DEMO PRODUCT VISIT**
+**https://teamparadox.streamlit.app/**
