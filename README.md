@@ -18,7 +18,7 @@ Business schools face difficulty addressing large volumes of prospective student
 ## ✨ Features
 
 - 🔍 **RAG Pipeline** — Retrieval-Augmented Generation with ChromaDB vector store
-- 🌐 **Bilingual** — Supports English and हिंदी
+- 🌐 **Language** — Supports English
 - 📄 **Multi-source ingestion** — Website (JS-rendered via Jina Reader) + PDF brochure
 - 🛡️ **Anti-hallucination** — Answers strictly grounded in official program data
 - 💡 **Agentic follow-ups** — Auto-suggests 3 related questions after every answer
@@ -66,7 +66,7 @@ Business schools face difficulty addressing large volumes of prospective student
                            ▼
                  ┌──────────────────────┐
                  │   Streamlit Chat UI   │
-                 │   English + हिंदी     │
+                 │         English      │
                  └──────────────────────┘
 ```
 
@@ -207,15 +207,10 @@ ollama pull phi3:mini       # 2.3GB — lightest (low RAM)
 ollama serve
 ```
 
-**Step 4 — Update `app.py`:**
+**Step 4 — Use the `app(local).py`:**
 
-Remove the `langchain_groq` import and replace the `get_llm()` function:
-```python
-from langchain_community.llms import Ollama
-
-@st.cache_resource(show_spinner="⚙️ Initializing local AI...")
-def get_llm():
-    return Ollama(model="llama3.1", temperature=0)
+```bash
+streamlit run app.py
 ```
 
 No `.env` file needed — runs 100% locally on your machine.
@@ -257,7 +252,7 @@ Data sources scraped:
 | Web Scraping | Jina Reader API | JS-rendered page extraction |
 | PDF Parsing | PyMuPDF | Brochure ingestion |
 | Frontend | Streamlit | Chat UI |
-| Languages | English, हिंदी | Bilingual support |
+| Languages | English | support |
 
 ---
 
@@ -333,6 +328,12 @@ dist/
 
 ## 👥 Team
 
+**Team Paradox**
+* Dhruv Chhabra
+* Aayush Ruparelia
+* Avaneja Rikhta
+* Shivam Kumar
+
 **Newton School of Technology, Rishihood University**
 Competing at FrostHack — Xpecto'26, IIT Mandi 🏔️
 
@@ -341,3 +342,6 @@ Competing at FrostHack — Xpecto'26, IIT Mandi 🏔️
 ## 📄 License
 
 MIT License — free to use, modify, and build upon.
+
+
+
