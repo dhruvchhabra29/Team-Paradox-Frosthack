@@ -76,9 +76,9 @@ Business schools face difficulty addressing large volumes of prospective student
 
 ```
 pgp-ai-advisor/
-├── app.py              # Main Streamlit application
+├── app.py              # Main Streamlit application(api)
 ├── .env                # API keys (NOT committed to git)
-├── .env.example        # Template for environment variables
+├── app(local).py       # Main Streamlit application (offline)
 ├── .gitignore          # Ignores .env, chroma_db/, brochure.pdf
 ├── requirements.txt    # Python dependencies
 ├── README.md           # This file
@@ -92,8 +92,8 @@ pgp-ai-advisor/
 ### Step 1 — Clone the repository
 
 ```bash
-git clone https://github.com/your-username/pgp-ai-advisor.git
-cd pgp-ai-advisor
+git clone https://github.com/dhruvchhabra29/Team-Paradox-Frosthack.git
+cd FROSTHACK
 ```
 
 ### Step 2 — Create virtual environment (Python 3.11 required)
