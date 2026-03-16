@@ -22,7 +22,7 @@ Business schools face difficulty addressing large volumes of prospective student
 - 📄 **Multi-source ingestion** — Website (JS-rendered via Jina Reader) + PDF brochure
 - 🛡️ **Anti-hallucination** — Answers strictly grounded in official program data
 - 💡 **Agentic follow-ups** — Auto-suggests 3 related questions after every answer
-- ⚡ **Fast inference** — LLaMA 3.3 70B via Groq API (free tier)
+- ⚡ **Fast inference** — LLaMA 3.3 70B via Groq API (free tier) and Local LLM(llama3.1, for offline)
 - 🎨 **Premium dark UI** — Masters' Union branded Streamlit interface
 
 ---
@@ -57,7 +57,7 @@ Business schools face difficulty addressing large volumes of prospective student
           │                                  │
     Query ──► Semantic Retrieval (k=8)       │
           │            ▼                     │
-          │    Grounded Prompt (EN/HI)       │
+          │    Grounded Prompt (EN)          │
           │            ▼                     │
           │   LLaMA 3.3 70B via Groq         │
           │            ▼                     │
@@ -263,12 +263,13 @@ Data sources scraped:
 | **Answer Accuracy** | RAG with k=8 retrieval + grounded prompt prevents hallucination |
 | **Relevance** | Semantic chunking (600 chars/80 overlap) + multi-source data |
 | **Robustness** | Graceful fallback for unknown queries + off-topic redirection |
-| **User Experience** | Dark UI, quick question sidebar, bilingual, follow-up suggestions |
+| **User Experience** | Dark UI, quick question sidebar, follow-up suggestions |
 | **Technical Implementation** | LCEL pipeline, ChromaDB, HuggingFace embeddings, LLaMA 3.3 70B |
 
 ---
 
 ## 🔧 Troubleshooting
+I faced during development:
 
 | Error | Fix |
 |-------|-----|
