@@ -15,18 +15,16 @@ from dotenv import load_dotenv
 load_dotenv()
 os.environ["USER_AGENT"] = "CourseAssistant/1.0"
 
-# ── CONFIG ───────────────────────────────────────────────
 PROGRAM_URLS = [
     "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems",
-    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-admissions",      # ← fees & admissions
-    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-curriculum",      # ← full curriculum
-    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-career-prospects",# ← career outcomes
+    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-admissions",      # fees & admissions
+    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-curriculum",      # full curriculum
+    "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-career-prospects",# career outcomes
     "https://mastersunion.org/pgp-in-applied-ai-and-agentic-systems-applynow",
 ]
 DB_DIR = "./chroma_db"
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 
-# ── PAGE CONFIG ──────────────────────────────────────────
 st.set_page_config(
     page_title="PGP AI Advisor | Masters' Union",
     page_icon="🎓",
@@ -34,7 +32,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── CSS ───────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -127,7 +124,6 @@ hr { border-color: #1f2235 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── DATA INGESTION ───────────────────────────────────────
 @st.cache_resource(show_spinner="🔍 Loading program data...")
 def build_vectorstore():
     docs = []
@@ -139,7 +135,6 @@ def build_vectorstore():
                 timeout=30
             )
             if resp.status_code == 200:
-                # Strip nav boilerplate lines (pure markdown nav links)
                 lines = resp.text.split('\n')
                 filtered = [
                     line for line in lines
@@ -163,7 +158,6 @@ def build_vectorstore():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     return Chroma.from_documents(chunks, embeddings, persist_directory=DB_DIR)
 
-# ── RAG CHAIN ────────────────────────────────────────────
 @st.cache_resource(show_spinner="⚙️ Initializing AI...")
 def build_chain(_vectordb):
     llm = ChatGroq(api_key=GROQ_API_KEY, model="llama-3.3-70b-versatile", temperature=0)
@@ -190,7 +184,6 @@ Answer:""")
     )
     return chain, llm, retriever
 
-# ── SIDEBAR ───────────────────────────────────────────────
 with st.sidebar:
     st.markdown("## 🎓 Course Advisor")
     st.markdown('<hr>', unsafe_allow_html=True)
@@ -225,7 +218,6 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# ── MAIN CONTENT ─────────────────────────────────────────
 st.markdown("""
 <div class="hero">
     <div class="hero-title">🎓 PGP Applied AI & Agentic Systems</div>
@@ -243,11 +235,9 @@ st.markdown("""
 <hr>
 """, unsafe_allow_html=True)
 
-# ── LOAD RESOURCES ───────────────────────────────────────
 vectordb = build_vectorstore()
 chain, llm, retriever = build_chain(vectordb)
 
-# ── CHAT ─────────────────────────────────────────────────
 if "messages" not in st.session_state:
     st.session_state.messages = [{
         "role": "assistant",
